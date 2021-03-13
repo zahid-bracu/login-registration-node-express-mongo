@@ -1,0 +1,26 @@
+{
+  "name": "login-registration-node-express-mongo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zahid-bracu/login-registration-node-express-mongo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zahid-bracu/login-registration-node-express-mongo/issues"
+  },
+  "homepage": "https://github.com/zahid-bracu/login-registration-node-express-mongo#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongodb": "^3.6.4",
+    "mongoose": "^5.12.0"
+  }
+}
