@@ -14,7 +14,7 @@
     <div class="container">
 
         
-        <form action="/login" method="POST" class="mt-5 custom-form" >
+        <form action="/login" method="POST" id="custom-form" class="mt-5 custom-form" >
 
             <h3 class="text-danger">Login Form </h3>
             <h4 class="text-primary">by Md. Zahidur Rahman</h4>
@@ -35,6 +35,7 @@
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
                     <input type="password" name="password" class="form-control" id="password">
+                    <p class="text-center text-danger mt-1" style="display: none;" id="wrong">Wrong Password</p>
                 </div>
 
                 
@@ -45,11 +46,54 @@
                 </div>
 
 
-            <button type="submit" class="btn btn-danger">Submit</button>
+                <button    onclick="addProduct(event)" class="btn btn-danger">Submit</button>
 
 
         </form>
+
+        <div id="success" style="display: none;">
+            <h1 class="text-center my-5">
+                You have been Successfully logged in
+            </h1>
+        </div>
+
+
+        
     </div>
+
+    <script>
+      function addProduct(event){
+            event.preventDefault();
+            
+            var email=document.getElementById('email').value
+            var password=document.getElementById('password').value
+            console.log(email + " : "+password);
+
+            const infos={
+                email:email,
+                password:password,
+            }
+            
+            fetch('http://localhost:9000/loginSubmit',{
+                method:'POST',
+                headers:{
+                    'Content-type':'application/json'
+                },
+                body:JSON.stringify(infos)
+            })
+                .then(response => {
+                    console.log(response.status);
+                    if(response.status==202){
+                        document.getElementById('success').style.display="block";
+                        document.getElementById('custom-form').style.display="none";
+                    }else if(response.status==203){
+                        document.getElementById('wrong').style.display="block";
+                    }
+                })
+                
+         }
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 
      

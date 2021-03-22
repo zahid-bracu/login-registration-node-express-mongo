@@ -12,9 +12,7 @@
   </head>
   <body>
     <div class="container">
-
-        
-        <form action="/register" method="POST" class="mt-5 custom-form" >
+        <form id="custom-form" class="mt-5 custom-form" >
 
             <h3 class="text-danger">Registration Form </h3>
             <h4 class="text-primary">by Md. Zahidur Rahman</h4>
@@ -51,11 +49,49 @@
                 </div>
 
 
-            <button type="submit" class="btn btn-danger">Submit</button>
+            <button   onclick="addProduct(event)" class="btn btn-danger">Submit</button>
 
 
         </form>
+        
+        <div class="custom-message">
+            <h1 class="text-center my-5">Successfully Registered</h1>
+        </div>
+        
     </div>
+
+    <script>
+         function addProduct(event){
+            event.preventDefault();
+            var name=document.getElementById('name').value
+            var email=document.getElementById('email').value
+            var password=document.getElementById('password').value
+            console.log(name+" : "+email + " : "+password);
+
+            const infos={
+                name:name,
+                email:email,
+                password:password,
+            }
+            
+            fetch('http://localhost:9000/submit',{
+                method:'POST',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body:JSON.stringify(infos)
+            })
+                .then(response => {
+                    if(response.status===200){
+                        document.getElementById("custom-form").style.display="none";
+                        document.getElementById("custom-message").style.display="block";
+
+                    }
+                });
+                
+         }
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 
      
