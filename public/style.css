@@ -1,4 +1,16 @@
+*{
+    text-decoration: inherit !important;
+}
+
+
 .custom-form{
     width: 95%;
     max-width: 600px;
+}
+
+.btn-group-custom{
+    width:95%;
+    max-width: 200px;
+    display: block;
+    margin: auto;
 }

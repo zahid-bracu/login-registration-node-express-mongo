@@ -19,27 +19,27 @@
             <hr />
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" name="name" id="name" aria-describedby="nameHelp">
+                    <input type="text" class="form-control" name="name" id="name" aria-describedby="nameHelp" required >
                      
                 </div>
 
 
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp">
+                    <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" required>
                     <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                 </div>
 
 
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" name="password" class="form-control" id="password">
+                    <input type="password" name="password" class="form-control" id="password" required>
                 </div>
 
 
                 <div class="mb-3">
                     <label for="cpassword" class="form-label">Confirm Password</label>
-                    <input type="password" name="cpassword" class="form-control" id="cpassword">
+                    <input type="password" name="cpassword" class="form-control" id="cpassword" required>
                 </div>
 
 
@@ -49,14 +49,21 @@
                 </div>
 
 
-            <button   onclick="addProduct(event)" class="btn btn-danger">Submit</button>
+            <button type="submit"   onclick="addProduct(event)" class="btn btn-danger">Submit</button>
 
 
         </form>
         
-        <div class="custom-message">
+        <div id="custom-message" style="display: none;">
             <h1 class="text-center my-5">Successfully Registered</h1>
         </div>
+
+
+        <div class="btn-group-custom">
+            <a href="./index.html">
+              <butto class="btn btn-success mx-auto d-block">Back to Home</butto>
+            </a>
+          </div>
         
     </div>
 

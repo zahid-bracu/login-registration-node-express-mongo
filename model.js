@@ -3,7 +3,7 @@ const mongoose=require('mongoose');
 const employessSchema=new mongoose.Schema({
     name:{
         type:String,
-        require:true
+        required:true
     },
     email:{
         type:String,
@@ -11,8 +11,15 @@ const employessSchema=new mongoose.Schema({
     },
     password:{
         type:String,
-        require:true
-    }
+        required:true
+    },
+
+    tokens:[{
+        token:{
+            type:String,
+            required:true
+        }
+    }]
 })
 
 const Register= new mongoose.model('Register',employessSchema);
