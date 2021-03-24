@@ -47,19 +47,21 @@ app.post('/submit', async function(req, res){
 
 
 
+//   login
 app.get('/login',async function(req,res){
     res.sendFile(path.join(__dirname,'public/login.html'));
 })
 
+
+//   login 
 app.post('/loginSubmit',async (req,res)=>{
     
 
     try{
         var result=await Register.findOne({email:req.body.email});
-         
+        console.log(req.body.password);
+        const token = await createToken(result._id);
         const passwordMatch= await bcrypt.compare(req.body.password,result.password);
-         
-
         if(passwordMatch){
             res.status(202).send("Ok")
         }else{
