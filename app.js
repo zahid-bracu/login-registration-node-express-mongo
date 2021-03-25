@@ -2,6 +2,7 @@ const express=require('express');
 const app=express();
 const bcrypt=require('bcryptjs');
 const path=require('path');
+require('dotenv').config()
 
 require('./conn');
 const Register=require('./model');
@@ -59,14 +60,20 @@ app.post('/loginSubmit',async (req,res)=>{
 
     try{
         var result=await Register.findOne({email:req.body.email});
-        console.log(req.body.password);
-        const token = await createToken(result._id);
-        const passwordMatch= await bcrypt.compare(req.body.password,result.password);
-        if(passwordMatch){
-            res.status(202).send("Ok")
+        console.log(result);
+        if(result==null){
+            res.status(204).send("mail not found");
         }else{
-            res.status(203).send("Not Ok")
+            console.log(req.body.password);
+            const token = await createToken(result._id);
+            const passwordMatch= await bcrypt.compare(req.body.password,result.password);
+            if(passwordMatch){
+                res.status(202).send("Ok")
+            }else{
+                res.status(203).send("Not Ok")
+            }
         }
+        
     }catch{
 
     }
