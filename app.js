@@ -4,6 +4,9 @@ const bcrypt=require('bcryptjs'); // BcryptJS import for password hashing
 const path=require('path'); // path import
 require('dotenv').config() // dot env importing to hide secret data
 
+var cookieParser = require('cookie-parser')
+app.use(cookieParser())
+
 require('./conn'); // connection file import and execute
 const Register=require('./model'); // schema file import and execute
 const {createToken}=require('./token'); // file import for create token
@@ -21,6 +24,16 @@ app.use(express.static(path.join(__dirname,'public')))  //set the default file -
 // register file setup
 app.get('/register', (req,res)=>{
     res.sendFile(path.join(__dirname,'public/register.html'));
+})
+
+app.get('/secret', (req,res)=>{
+    console.log(`Token : ${req.cookies.jwt}`);
+    if(req.cookies.jwt){
+        res.sendFile(path.join(__dirname,'public/secret.html'));
+    }else{
+        res.sendFile(path.join(__dirname,'public/index.html'));
+    }
+    
 })
 
 
@@ -84,7 +97,7 @@ app.post('/loginSubmit',async (req,res)=>{
 
             // set cookie
             res.cookie('jwt',token,{
-                expires:new Date(Date.now()+50000),
+                expires:new Date(Date.now()+900000),
                 httpOnly:true,
                 secure:true
             })
@@ -103,7 +116,7 @@ app.post('/loginSubmit',async (req,res)=>{
 })
 
 
-
+//  app is listening to the port
 app.listen(port, ()=>{
     console.log("Server is running at "+port);
 })
