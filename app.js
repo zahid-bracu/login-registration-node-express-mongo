@@ -95,16 +95,17 @@ app.post('/loginSubmit',async (req,res)=>{
             // using bcryptjs to verify the password
             const passwordMatch= await bcrypt.compare(req.body.password,result.password);
 
-            // set cookie
-            res.cookie('jwt',token,{
-                expires:new Date(Date.now()+900000),
-                httpOnly:true,
-                secure:true
-            })
+            
 
             // passowrd matching
             if(passwordMatch){
                 res.status(202).send("Ok")
+                // set cookie
+                res.cookie('jwt',token,{
+                    expires:new Date(Date.now()+900000),
+                    httpOnly:true,
+                    secure:true
+                })
             }else{
                 res.status(203).send("Not Ok")
             }
