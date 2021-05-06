@@ -81,7 +81,7 @@
                 password:password,
             }
             
-            fetch('https://login-registration-2020.herokuapp.com/submit',{
+            fetch('http://localhost:9000/submit',{
                 method:'POST',
                 headers:{
                     'Content-Type': 'application/json'
@@ -93,6 +93,8 @@
                         document.getElementById("custom-form").style.display="none";
                         document.getElementById("custom-message").style.display="block";
 
+                    }else{
+                        alert("Mail Already Existed");
                     }
                 });
                 

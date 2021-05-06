@@ -2,10 +2,13 @@ const express=require('express'); //express import
 const app=express(); // app create from express
 const bcrypt=require('bcryptjs'); // BcryptJS import for password hashing
 const path=require('path'); // path import
+var cors = require('cors')
 require('dotenv').config() // dot env importing to hide secret data
 
 var cookieParser = require('cookie-parser')
 app.use(cookieParser())
+
+app.use(cors())
 
 require('./conn'); // connection file import and execute
 const Register=require('./model'); // schema file import and execute
@@ -41,7 +44,17 @@ app.get('/secret', (req,res)=>{
 app.post('/submit', async function(req, res){
     // password hash
     const password= await bcrypt.hash(req.body.password,12);
+    
+    // checking the email already existied or not
+    const existedData=await Register.find({email:req.body.email});
+    
 
+    
+    // if already existed
+    if(existedData.length>0){
+        res.status(202).send({"message":"The Email Address Already Resgistered"});
+    }else{
+        // if not existed
         try{
 
             // set to the schema
@@ -68,6 +81,8 @@ app.post('/submit', async function(req, res){
         }catch{
             res.send("problems")
         }
+    }
+        
   });
 
 
