@@ -92,6 +92,7 @@ router.post('/loginSubmit',async (req,res)=>{
         }else{
             console.log(req.body.password);
             const token = await createToken(result._id); //generate token
+            console.log("Toke is : "+token);
 
             // using bcryptjs to verify the password
             const passwordMatch= await bcrypt.compare(req.body.password,result.password);
@@ -101,12 +102,6 @@ router.post('/loginSubmit',async (req,res)=>{
             // passowrd matching
             if(passwordMatch){
                 res.status(202).send("Ok")
-                // set cookie
-                res.cookie('jwt',token,{
-                    expires:new Date(Date.now()+900000),
-                    httpOnly:true,
-                    secure:true
-                })
             }else{
                 res.status(203).send("Not Ok")
             }
