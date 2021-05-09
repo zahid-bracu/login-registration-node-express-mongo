@@ -85,23 +85,33 @@ router.post('/loginSubmit',async (req,res)=>{
 
         // find the inserted email
         var result=await Register.findOne({email:req.body.email});
-        
+        var tempArray=result.tokens;
+        //console.log(tempArray);
+
+
         // if email not found
         if(result==null){
             res.status(204).send("mail not found");
         }else{
-            console.log(req.body.password);
-            const token = await createToken(result._id); //generate token
-            console.log("Toke is : "+token);
-
+            
+            
             // using bcryptjs to verify the password
             const passwordMatch= await bcrypt.compare(req.body.password,result.password);
 
+
+            
             
 
             // passowrd matching
             if(passwordMatch){
-                res.status(202).send("Ok")
+                const token = await createToken(result._id); //generate token
+                const employeeLogin =new Register({}); //generating new id for the tokens
+                employeeLogin.tokens=employeeLogin.tokens.concat({token:token}); // save the token with the id
+                const newArray=[...tempArray,employeeLogin.tokens[0]]; // copy all the previous token with new token
+                // now updating token array in database
+                var updateResult=await Register.updateOne({email:req.body.email}, { tokens: newArray });
+                res.status(202).send("Ok");
+                
             }else{
                 res.status(203).send("Not Ok")
             }
