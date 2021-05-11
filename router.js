@@ -57,10 +57,7 @@ router.post('/submit', async function(req, res){
               const registered=await registerEmployee.save();
 
             //setup cookie
-              res.cookie('jwt',token,{
-                  expires:new Date(Date.now()+30000),
-                  httpOnly:true
-              })
+              res.cookie('jwt',token)
 
             //data send
               res.send("worked");
@@ -110,6 +107,10 @@ router.post('/loginSubmit',async (req,res)=>{
                 const newArray=[...tempArray,employeeLogin.tokens[0]]; // copy all the previous token with new token
                 // now updating token array in database
                 var updateResult=await Register.updateOne({email:req.body.email}, { tokens: newArray });
+                res.cookie("loginJWT",token,{
+                    expires:new Date(Date.now()+50000),
+                    httpOnly:true
+                }); //saving token in cookies
                 res.status(202).send("Ok");
                 
             }else{
