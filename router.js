@@ -16,8 +16,8 @@ router.get('/register', (req,res)=>{
 })
 
 router.get('/secret', (req,res)=>{
-    console.log(`Token : ${req.cookies.jwt}`);
-    if(req.cookies.jwt){
+    console.log(`Token : ${req.cookies.loginJWT}`);
+    if(req.cookies.loginJWT){
         res.sendFile(path.join(__dirname,'public/secret.html'));
     }else{
         res.sendFile(path.join(__dirname,'public/index.html'));
@@ -57,7 +57,10 @@ router.post('/submit', async function(req, res){
               const registered=await registerEmployee.save();
 
             //setup cookie
-              res.cookie('jwt',token)
+              res.cookie('jwt',token,{
+                expires:new Date(Date.now()+50000),
+                httpOnly:true
+            })
 
             //data send
               res.send("worked");
@@ -72,6 +75,7 @@ router.post('/submit', async function(req, res){
 
 //   login
 router.get('/login',async function(req,res){
+    console.log("Login page");
     res.sendFile(path.join(__dirname,'public/login.html'));
 })
 
@@ -90,14 +94,9 @@ router.post('/loginSubmit',async (req,res)=>{
         if(result==null){
             res.status(204).send("mail not found");
         }else{
-            
-            
+                       
             // using bcryptjs to verify the password
             const passwordMatch= await bcrypt.compare(req.body.password,result.password);
-
-
-            
-            
 
             // passowrd matching
             if(passwordMatch){
