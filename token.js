@@ -12,6 +12,7 @@ const verifyToken =(req,res,next)=>{
     try{
         const token=req.cookies.loginJWT; 
         const verifyUser=jwt.verify(token,process.env.key);
+        console.log(verifyUser.value);
         next();
     }catch(err){
         res.sendFile(path.join(__dirname,'public/index.html'));
