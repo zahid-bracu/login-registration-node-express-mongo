@@ -1,5 +1,5 @@
 const jwt =require('jsonwebtoken');
-
+const path=require('path'); // path import 
 const createToken= async (value) =>{
     
     const token = await jwt.sign({value},process.env.key);
@@ -7,4 +7,15 @@ const createToken= async (value) =>{
 
 }
 
-module.exports={createToken};
+
+const verifyToken =(req,res,next)=>{
+    try{
+        const token=req.cookies.loginJWT; 
+        const verifyUser=jwt.verify(token,process.env.key);
+        next();
+    }catch(err){
+        res.sendFile(path.join(__dirname,'public/index.html'));
+    }
+}
+
+module.exports={createToken,verifyToken};

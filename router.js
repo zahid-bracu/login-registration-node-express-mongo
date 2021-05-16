@@ -5,8 +5,7 @@ const path=require('path'); // path import
 require('dotenv').config();
 require('./conn'); 
 const Register=require('./model');
-const {createToken}=require('./token');
-
+const {createToken,verifyToken}=require('./token');
 
 
 
@@ -15,14 +14,10 @@ router.get('/register', (req,res)=>{
     res.sendFile(path.join(__dirname,'public/register.html'));
 })
 
-router.get('/secret', (req,res)=>{
-    console.log(`Token : ${req.cookies.loginJWT}`);
-    if(req.cookies.loginJWT){
+
+// secret page
+router.get('/secret',verifyToken, (req,res)=>{
         res.sendFile(path.join(__dirname,'public/secret.html'));
-    }else{
-        res.sendFile(path.join(__dirname,'public/index.html'));
-    }
-    
 })
 
 
@@ -73,7 +68,7 @@ router.post('/submit', async function(req, res){
 
 
 
-//   login
+//   login page
 router.get('/login',async function(req,res){
     console.log("Login page");
     res.sendFile(path.join(__dirname,'public/login.html'));
@@ -107,7 +102,7 @@ router.post('/loginSubmit',async (req,res)=>{
                 // now updating token array in database
                 var updateResult=await Register.updateOne({email:req.body.email}, { tokens: newArray });
                 res.cookie("loginJWT",token,{
-                    expires:new Date(Date.now()+50000),
+                    expires:new Date(Date.now()+50000000000000000000000000000),
                     httpOnly:true
                 }); //saving token in cookies
                 res.status(202).send("Ok");
