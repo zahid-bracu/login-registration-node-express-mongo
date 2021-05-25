@@ -17,6 +17,7 @@ router.get('/register', (req,res)=>{
 
 // secret page
 router.get('/secret',verifyToken, (req,res)=>{
+         
         res.sendFile(path.join(__dirname,'public/secret.html'));
 })
 
